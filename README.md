@@ -1,4 +1,4 @@
-# Ecommerce REST api
+# Ecommerce REST API
 
 - Developed a robust RESTful API using Java and Spring Boot.
 - Used Spring Data Jpa to interact with a PostgreSQL database, ensuring efficient data management and retrieval.
