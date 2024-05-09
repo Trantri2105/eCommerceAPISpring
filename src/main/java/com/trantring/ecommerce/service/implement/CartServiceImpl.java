@@ -5,7 +5,7 @@ import com.trantring.ecommerce.dto.CartItemDTO;
 import com.trantring.ecommerce.entity.Cart;
 import com.trantring.ecommerce.entity.CartItem;
 import com.trantring.ecommerce.entity.Product;
-import com.trantring.ecommerce.entity.Users;
+import com.trantring.ecommerce.entity.User;
 import com.trantring.ecommerce.service.CartItemService;
 import com.trantring.ecommerce.service.CartService;
 import com.trantring.ecommerce.service.ProductService;
@@ -40,7 +40,7 @@ public class CartServiceImpl implements CartService {
 
     @Override
     public void addProductToCart(String email, int productId, int quantity) {
-        Users user = userService.findUserByEmail(email);
+        User user = userService.findUserByEmail(email);
         Cart cart = cartRepository.findByUser(user).orElseThrow(() -> new RuntimeException("Cart not found!"));
         Product product = productService.findProductById(productId);
         if (cartItemService.findCartItemByCartAndProduct(cart, product).isPresent())
@@ -52,13 +52,13 @@ public class CartServiceImpl implements CartService {
 
     @Override
     public Cart getCartInfo(String email) {
-        Users user = userService.findUserByEmail(email);
+        User user = userService.findUserByEmail(email);
         return cartRepository.findByUser(user).orElseThrow(() -> new RuntimeException("Cart not found!"));
     }
 
     @Override
     public Cart updateCart(String email, CartItemDTO cartItemDTO) {
-        Users user = userService.findUserByEmail(email);
+        User user = userService.findUserByEmail(email);
         Cart cart = cartRepository.findByUser(user).orElseThrow(() -> new RuntimeException("Cart not found!"));
         Product product = productService.findProductById(cartItemDTO.getProductId());
         List<CartItem> cartItems = cart.getCartItems();
@@ -72,7 +72,7 @@ public class CartServiceImpl implements CartService {
 
     @Override
     public void deleteProductFromCart(String email, int productId) {
-        Users user = userService.findUserByEmail(email);
+        User user = userService.findUserByEmail(email);
         Cart cart = cartRepository.findByUser(user).orElseThrow(() -> new RuntimeException("Cart not found!"));
         Product product = productService.findProductById(productId);
         List<CartItem> cartItems = cart.getCartItems();
@@ -84,7 +84,7 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
-    public Cart findCartByUser(Users user) {
+    public Cart findCartByUser(User user) {
         return cartRepository.findByUser(user).orElseThrow(() -> new RuntimeException("Cart not found!"));
     }
 

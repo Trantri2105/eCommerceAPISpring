@@ -8,7 +8,7 @@ import com.trantring.ecommerce.dto.response.OrderItemDTO;
 import com.trantring.ecommerce.entity.Cart;
 import com.trantring.ecommerce.entity.Order;
 import com.trantring.ecommerce.entity.OrderItem;
-import com.trantring.ecommerce.entity.Users;
+import com.trantring.ecommerce.entity.User;
 import com.trantring.ecommerce.service.CartService;
 import com.trantring.ecommerce.service.OrderService;
 import com.trantring.ecommerce.service.UserService;
@@ -38,7 +38,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public void createOrder(String email, OrderRequestDTO orderRequestDTO) {
-        Users user = userService.findUserByEmail(email);
+        User user = userService.findUserByEmail(email);
         Cart cart = cartService.findCartByUser(user);
         if (cart.getCartItems().isEmpty()) throw new RuntimeException("Cart is empty!");
         List<OrderItem> orderItems = new ArrayList<>();
@@ -81,7 +81,7 @@ public class OrderServiceImpl implements OrderService {
         if (!(new ArrayList<>(List.of("asc", "desc")).contains(requestParamsDTO.getSortOrder()))) {
             throw new RuntimeException("sortOrder is invalid!");
         }
-        Users user = userService.findUserByEmail(email);
+        User user = userService.findUserByEmail(email);
         Sort sort = requestParamsDTO.getSortOrder().equals("asc") ? Sort.by(requestParamsDTO.getSortBy()) : Sort.by(requestParamsDTO.getSortBy()).descending();
         return orderRepository.findAllByUser(user, PageRequest.of(requestParamsDTO.getPageNumber(), requestParamsDTO.getPageSize(), sort));
     }
@@ -95,7 +95,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public void deleteOrder(int orderId, String email) {
-        Users user = userService.findUserByEmail(email);
+        User user = userService.findUserByEmail(email);
         Order order = orderRepository.findByIdAndUser(orderId, user).orElseThrow(() -> new RuntimeException("Order not found!"));
         orderRepository.delete(order);
     }

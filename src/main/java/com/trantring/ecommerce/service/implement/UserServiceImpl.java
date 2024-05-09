@@ -6,7 +6,7 @@ import com.trantring.ecommerce.dto.request.RegisterDTO;
 import com.trantring.ecommerce.dto.request.RequestParamsDTO;
 import com.trantring.ecommerce.dto.request.UserRequestDTO;
 import com.trantring.ecommerce.entity.Cart;
-import com.trantring.ecommerce.entity.Users;
+import com.trantring.ecommerce.entity.User;
 import com.trantring.ecommerce.security.JWTService;
 import com.trantring.ecommerce.service.UserService;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -41,14 +41,14 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Users save(Users user) {
+    public User save(User user) {
         return userRepository.save(user);
     }
 
     @Override
     public void registerUser(RegisterDTO registerDTO) {
         try {
-            Users user = new Users();
+            User user = new User();
             user.setEmail(registerDTO.getEmail());
             user.setPassword((new BCryptPasswordEncoder()).encode(registerDTO.getPassword()));
             user.setFirstName(registerDTO.getFirstname());
@@ -65,17 +65,17 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Users findUserByEmail(String email) {
+    public User findUserByEmail(String email) {
         return userRepository.findByEmail(email).orElseThrow(() -> new RuntimeException("User not found!"));
     }
 
     @Override
-    public Users findUserById(int userId) {
+    public User findUserById(int userId) {
         return userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found!"));
     }
 
     @Override
-    public Page<Users> getAllUser(RequestParamsDTO requestParamsDTO) {
+    public Page<User> getAllUser(RequestParamsDTO requestParamsDTO) {
         if (requestParamsDTO.getPageSize() > 20) requestParamsDTO.setPageSize(20);
         if (!(new ArrayList<>(List.of("id", "email", "lastName", "firstName")).contains(requestParamsDTO.getSortBy()))) {
             throw new RuntimeException("sortBy is invalid!");
@@ -88,8 +88,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Users updateUser(UserRequestDTO userRequestDTO, String email) {
-        Users user = findUserByEmail(email);
+    public User updateUser(UserRequestDTO userRequestDTO, String email) {
+        User user = findUserByEmail(email);
         if (userRequestDTO.getPassword() != null) {
             user.setPassword((new BCryptPasswordEncoder()).encode(userRequestDTO.getPassword()));
         }
@@ -104,7 +104,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void deleteUser(int userId) {
-        Users user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found!"));
+        User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found!"));
         userRepository.delete(user);
     }
 

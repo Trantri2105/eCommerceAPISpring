@@ -4,21 +4,21 @@ import com.trantring.ecommerce.dto.request.LoginDTO;
 import com.trantring.ecommerce.dto.request.RegisterDTO;
 import com.trantring.ecommerce.dto.request.RequestParamsDTO;
 import com.trantring.ecommerce.dto.request.UserRequestDTO;
-import com.trantring.ecommerce.entity.Users;
+import com.trantring.ecommerce.entity.User;
 import org.springframework.data.domain.Page;
 
 public interface UserService {
-    Users save(Users user);
+    User save(User user);
 
     void registerUser(RegisterDTO registerDTO);
 
-    Users findUserByEmail(String email);
+    User findUserByEmail(String email);
 
-    Users findUserById(int userId);
+    User findUserById(int userId);
 
-    Page<Users> getAllUser(RequestParamsDTO requestParamsDTO);
+    Page<User> getAllUser(RequestParamsDTO requestParamsDTO);
 
-    Users updateUser(UserRequestDTO userRequestDTO, String email);
+    User updateUser(UserRequestDTO userRequestDTO, String email);
 
     void deleteUser(int userId);
 

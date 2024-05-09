@@ -20,12 +20,11 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
 
     private JWTService jwtService;
 
-    private CustomUserDetailsService customUserDetailsService;
+    private CustomUserDetailService customUserDetailService;
 
-
-    public JWTAuthenticationFilter(JWTService jwtService, CustomUserDetailsService customUserDetailsService) {
+    public JWTAuthenticationFilter(JWTService jwtService, CustomUserDetailService customUserDetailService) {
         this.jwtService = jwtService;
-        this.customUserDetailsService = customUserDetailsService;
+        this.customUserDetailService = customUserDetailService;
     }
 
     @Override
@@ -35,8 +34,8 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
         String token = getJWTFromRequest(request);
         if (StringUtils.hasText(token) && jwtService.validateToken(token)) {
             String userId = jwtService.getUserIdFromJWT(token);
-            String email = customUserDetailsService.findUserById(Integer.parseInt(userId)).getEmail();
-            UserDetails userDetails = customUserDetailsService.loadUserByUsername(email);
+            String email = customUserDetailService.findUserById(Integer.parseInt(userId)).getEmail();
+            UserDetails userDetails = customUserDetailService.loadUserByUsername(email);
             UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(userDetails, null,
                     userDetails.getAuthorities());
             authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));

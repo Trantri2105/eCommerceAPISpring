@@ -2,7 +2,7 @@ package com.trantring.ecommerce.service;
 
 import com.trantring.ecommerce.dto.CartItemDTO;
 import com.trantring.ecommerce.entity.Cart;
-import com.trantring.ecommerce.entity.Users;
+import com.trantring.ecommerce.entity.User;
 
 public interface CartService {
     Cart save(Cart cart);
@@ -15,5 +15,5 @@ public interface CartService {
 
     void deleteProductFromCart(String email, int productId);
 
-    Cart findCartByUser(Users user);
+    Cart findCartByUser(User user);
 }

@@ -4,7 +4,7 @@ import com.trantring.ecommerce.dto.request.RequestParamsDTO;
 import com.trantring.ecommerce.dto.request.UserRequestDTO;
 import com.trantring.ecommerce.dto.response.UserPageResponseDTO;
 import com.trantring.ecommerce.dto.response.UserResponseDTO;
-import com.trantring.ecommerce.entity.Users;
+import com.trantring.ecommerce.entity.User;
 import com.trantring.ecommerce.mapper.UserMapper;
 import com.trantring.ecommerce.service.UserService;
 import org.springframework.data.domain.Page;
@@ -29,21 +29,21 @@ public class UserController {
     @PreAuthorize("hasAnyRole('ROLE_user','ROLE_admin')")
     @GetMapping("/user/info")
     public ResponseEntity<UserResponseDTO> getUserInformation(Authentication authentication) {
-        Users user = userService.findUserByEmail(authentication.getName());
+        User user = userService.findUserByEmail(authentication.getName());
         return new ResponseEntity<>(userMapper.userToUserResponseDTO(user), HttpStatus.OK);
     }
 
     @PreAuthorize("hasRole('ROLE_admin')")
     @GetMapping("/user")
     public ResponseEntity<UserPageResponseDTO> getAllUserInformation(RequestParamsDTO requestParamsDTO) {
-        Page<Users> usersPage = userService.getAllUser(requestParamsDTO);
+        Page<User> usersPage = userService.getAllUser(requestParamsDTO);
         return new ResponseEntity<>(userMapper.userPageToUserPageResponseDTO(usersPage), HttpStatus.OK);
     }
 
     @PreAuthorize("hasAnyRole('ROLE_user','ROLE_admin')")
     @PatchMapping("/user")
     public ResponseEntity<UserResponseDTO> updateUserInformation(@RequestBody UserRequestDTO userRequestDTO, Authentication authentication) {
-        Users updateUser = userService.updateUser(userRequestDTO, authentication.getName());
+        User updateUser = userService.updateUser(userRequestDTO, authentication.getName());
         return new ResponseEntity<>(userMapper.userToUserResponseDTO(updateUser), HttpStatus.OK);
     }
 
