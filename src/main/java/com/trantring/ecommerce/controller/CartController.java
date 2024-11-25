@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api")
+@CrossOrigin
 public class CartController {
     private CartService cartService;
     private CartMapper cartMapper;

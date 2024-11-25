@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api")
+@CrossOrigin
 public class ProductController {
     private ProductService productService;
     private ProductMapper productMapper;

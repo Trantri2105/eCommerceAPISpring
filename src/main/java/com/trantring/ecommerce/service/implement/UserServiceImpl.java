@@ -61,7 +61,6 @@ public class UserServiceImpl implements UserService {
         } catch (DataIntegrityViolationException exception) {
             throw new RuntimeException("User already exist with email: " + registerDTO.getEmail());
         }
-
     }
 
     @Override
